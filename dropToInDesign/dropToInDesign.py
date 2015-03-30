@@ -44,9 +44,18 @@ class CreateInDesignSpecimen:
         self.copyFonts()
 
         # Read font data
+        self.fontsdict = []
+        for fontfile in self.fontpath_list:
+            this_fontdict = {
+                'fontpath': fontfile,
+                'filename': '',
+                'familyname': '',
+                'style': ''
+            }
+            self.fontsdict.append(this_fontdict)
 
         # Create a working directory from idml file
-        self.createTmpIDMLDir()
+        #self.createTmpIDMLDir()
 
         # Add all data to template InDesign file. (Create a page for every font.)
         self.replaceIDContent()
@@ -98,6 +107,13 @@ class CreateInDesignSpecimen:
 
 
     def replaceIDContent(self):
+
+        # Overwrite fonts.xml
+        font_xml_file_content_old = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><idPkg:Fonts xmlns:idPkg="http://ns.adobe.com/AdobeInDesign/idml/1.0/packaging" DOMVersion="8.0">{{fontfamilylist}}</idPkg:Fonts>'
+
+        for fontdata in self.fontsdict:
+            print fontdata
+
         # Get all textboxes of idml document
         storyfolder = os.path.join('temp', 'Stories')
 
