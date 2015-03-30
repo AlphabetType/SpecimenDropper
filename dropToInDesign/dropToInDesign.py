@@ -71,7 +71,7 @@ class CreateInDesignSpecimen:
         # Create a working directory from idml file
         #self.createTmpIDMLDir()
 
-        # Add all data to template InDesign file. (Create a page for every font.)
+        # Add all data to template InDesign file. (Create a file for every font.)
         self.replaceIDContent()
 
         # Remove temporary dir
