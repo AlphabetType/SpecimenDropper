@@ -1,10 +1,13 @@
 import subprocess
-import sys, os
+import sys, os, shutil
 
 class ConfigData:
     def __init__(self):
         # Allowed filetypes must start with a dot
         self.allowedFiletypes = ['.otf', '.ttf']
+
+        # At the moment the fonts will be copied to a directory, relative to the script
+        self.id_fonts_folderpath = os.path.join('specimen', 'Document fonts')
 
 def getInputpaths():
     arguments = []
@@ -21,10 +24,10 @@ class CreateInDesignSpecimen:
         self.c = ConfigData()
 
         # Receive one or more fonts.
-        fontpath_list = self.acceptOnlyAllowedFiletypesInList(path_list)
-        print fontpath_list
+        self.fontpath_list = self.acceptOnlyAllowedFiletypesInList(path_list)
 
         # Copy every font into the document-fonts folder of a predefined directory
+        self.copyFonts()
 
         # Read font data
 
@@ -39,6 +42,24 @@ class CreateInDesignSpecimen:
                 print p, 'ignored, because it has no an allowed extension.'
 
         return pathlist_out
+
+    def copyFonts(self):
+        try:
+            # Remove folder to have a clear start
+            shutil.rmtree(self.c.id_fonts_folderpath)
+        except:
+            # Folder does not exist yet
+            pass
+        finally:
+            # Create folder (again)
+            os.mkdir(self.c.id_fonts_folderpath)
+
+            # Copy fonts into empty folder
+            for fontpath in self.fontpath_list:
+                try:
+                    shutil.copy(fontpath, self.c.id_fonts_folderpath)
+                except:
+                    print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
 
 
 
