@@ -137,7 +137,7 @@ class CreateInDesignSpecimen:
         xml_string = ''
         xml_string += '\n\t<FontFamily Self="di%s" ' % str(index)
         xml_string += 'Name="%s">\n\t\t' % fontdata['familyname']
-        xml_string += '<Font Self="di%s" ' % str(index) + fontdata['fullname']
+        xml_string += '<Font Self="di%s" ' % str(index)
         xml_string += 'FontFamily="%s" ' % fontdata['familyname']
         xml_string += 'Name="%s" ' % fontdata['fullname']
         xml_string += 'PostScriptName="%s" ' % fontdata['postscriptname']
