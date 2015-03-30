@@ -1,8 +1,21 @@
 import subprocess
 import sys, os, shutil
+import zipfile
 
 class ConfigData:
     def __init__(self):
+        # IDML template
+        self.idml_template = os.path.join('dev', 'test_specimen.idml')
+
+        # Placholders variables to replace
+        self.placeholders = [
+            {
+                'id': 'fontname',
+                'variable': '{{fontname}}',
+                'replaceBy': 'test'
+            }
+        ]
+
         # Allowed filetypes must start with a dot
         self.allowedFiletypes = ['.otf', '.ttf']
 
@@ -19,6 +32,7 @@ def getInputpaths():
 class CreateInDesignSpecimen:
     def __init__(self, path_list):
         self.path = False # set to false for dev reasons
+        print sys.argv[0]
 
         # Get config data
         self.c = ConfigData()
@@ -31,7 +45,28 @@ class CreateInDesignSpecimen:
 
         # Read font data
 
+        # Create a working directory from idml file
+        self.createTmpIDMLDir()
+
         # Add all data to template InDesign file. (Create a page for every font.)
+        self.replaceIDContent()
+
+        # Remove temporary dir
+        #self.removeTmpIDMLDir()
+
+    def definePlaceholders(self):
+        raw_placeholders = self.c.placeholders
+
+
+    def createTmpIDMLDir(self):
+        os.mkdir('temp')
+
+        # An IDML file is practically a zip file. So we can unzip it to our temp directory.
+        with zipfile.ZipFile(self.c.idml_template) as zipped_idml:
+            zipped_idml.extractall('temp')
+
+    def removeTmpIDMLDir(self):
+        shutil.rmtree('temp')
 
     def acceptOnlyAllowedFiletypesInList(self, pathlist_in):
         pathlist_out = []
@@ -61,6 +96,27 @@ class CreateInDesignSpecimen:
                 except:
                     print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
 
+
+    def replaceIDContent(self):
+        # Get all textboxes of idml document
+        storyfolder = os.path.join('temp', 'Stories')
+
+        for story_file in os.listdir(storyfolder):
+            story_path = os.path.join(storyfolder, story_file)
+            content_out = False
+
+            # Open every story file and check if there is something to be replaced
+            with open(story_path, 'r') as content_in:
+                content = content_in.read()
+                for placeholder in self.c.placeholders:
+                    if placeholder['variable'] in content:
+                        content_out = str(content)
+                        content_out = content_out.replace(placeholder['variable'], placeholder['replaceBy'])
+
+            # Save file with replaced content, if something was found
+            if content_out:
+                with open(story_path, 'w') as f:
+                    f.write(content_out)
 
 
 if __name__ == '__main__':
