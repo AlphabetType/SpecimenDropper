@@ -5,6 +5,11 @@ from fontTools.ttLib import TTFont
 
 class ConfigData:
     def __init__(self):
+        # Create Specimen folder if necessary
+        self.specimen_folder = 'specimen'
+        if not os.path.exists(self.specimen_folder):
+            os.mkdir(self.specimen_folder)
+
         # IDML template
         self.idml_template = os.path.join('dev', 'test_specimen.idml')
 
@@ -21,7 +26,7 @@ class ConfigData:
         self.allowedFiletypes = ['.otf', '.ttf']
 
         # At the moment the fonts will be copied to a directory, relative to the script
-        self.id_fonts_folderpath = os.path.join('specimen', 'Document fonts')
+        self.id_fonts_folderpath = os.path.join(self.specimen_folder, 'Document fonts')
 
 def getInputpaths():
     arguments = []
