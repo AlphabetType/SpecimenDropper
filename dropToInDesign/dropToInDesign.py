@@ -58,7 +58,9 @@ class CreateInDesignSpecimen:
                 'fonttype': ''
             }
 
-            if font.has_key('CFF'):
+            print dict(font)
+
+            if font.has_key('CFF '): # There is a space after CFF because table tags have 4 letters
                 this_fontdict['fonttype'] = 'OpenTypeCFF'
             else:
                this_fontdict['fonttype'] = 'TrueType'
