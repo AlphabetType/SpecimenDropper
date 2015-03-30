@@ -51,7 +51,11 @@ class CreateInDesignSpecimen:
             this_fontdict = {
                 'fontpath': fontfile,
                 'familyname': font['name'].getName(1,1,0).string,
-                'style': font['name'].getName(2,1,0).string
+                'style': font['name'].getName(2,1,0).string,
+                'fullname': '',
+                'postscriptname': '',
+                'fonttype': '',
+                'version': ''
             }
             self.fontsdict.append(this_fontdict)
 
@@ -110,10 +114,31 @@ class CreateInDesignSpecimen:
     def replaceIDContent(self):
 
         # Overwrite fonts.xml
-        font_xml_file_content_old = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><idPkg:Fonts xmlns:idPkg="http://ns.adobe.com/AdobeInDesign/idml/1.0/packaging" DOMVersion="8.0">{{fontfamilylist}}</idPkg:Fonts>'
+        fonts_xml_file = os.path.join('temp', 'Resources', 'Fonts.xml')
+        fonts_xml_file_content_old = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<idPkg:Fonts xmlns:idPkg="http://ns.adobe.com/AdobeInDesign/idml/1.0/packaging" DOMVersion="8.0">{{fontfamilylist}}\n</idPkg:Fonts>'
 
+        index = 0
+        xml_string = ''
         for fontdata in self.fontsdict:
-            print fontdata
+            index += 1
+            xml_string += '\n\t<FontFamily Self="di%s" ' % str(index)
+            xml_string += 'Name="%s">\n\t\t' % fontdata['familyname']
+            xml_string += '<Font Self="di%s" ' % str(index) + fontdata['fullname']
+            xml_string += 'FontFamily="%s" ' % fontdata['familyname']
+            xml_string += 'Name="%s" ' % fontdata['fullname']
+            xml_string += 'PostScriptName="%s" ' % fontdata['postscriptname']
+            xml_string += 'Status="Installed" FontStyleName="%s" ' % fontdata['style']
+            xml_string += 'FontType="%s" ' % fontdata['fonttype']
+            xml_string += 'WritingScript="0" FullName="%s" ' % fontdata['fullname']
+            xml_string += 'FullNameNative="%s" ' % fontdata['fullname']
+            xml_string += 'FontStyleNameNative="%s" ' % fontdata['style']
+            xml_string += 'PlatformName="$ID/" Version="%s" />\n\t' % fontdata['version']
+            xml_string += '</FontFamily>'
+
+        fonts_xml_file_content_new = fonts_xml_file_content_old.replace('{{fontfamilylist}}', xml_string)
+
+        with open(fonts_xml_file, 'w') as f:
+            f.write(fonts_xml_file_content_new)
 
         # Get all textboxes of idml document
         storyfolder = os.path.join('temp', 'Stories')
