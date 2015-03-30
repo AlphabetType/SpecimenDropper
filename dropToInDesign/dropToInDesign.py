@@ -52,12 +52,19 @@ class CreateInDesignSpecimen:
                 'fontpath': fontfile,
                 'familyname': font['name'].getName(1,1,0).string,
                 'style': font['name'].getName(2,1,0).string,
-                'fullname': '',
-                'postscriptname': '',
-                'fonttype': '',
-                'version': ''
+                'fullname': font['name'].getName(2,1,0).string,
+                'postscriptname': font['name'].getName(6,1,0).string,
+                'version': font['name'].getName(5,1,0).string,
+                'fonttype': ''
             }
+
+            if font.has_key('CFF'):
+                this_fontdict['fonttype'] = 'OpenTypeCFF'
+            else:
+               this_fontdict['fonttype'] = 'TrueType'
+
             self.fontsdict.append(this_fontdict)
+        print self.fontsdict
 
         # Create a working directory from idml file
         #self.createTmpIDMLDir()
