@@ -1,3 +1,4 @@
+import subprocess
 
 def getInputpaths():
     return []
@@ -5,6 +6,7 @@ def getInputpaths():
 class CreateInDesignSpecimen:
     def __init__(self, path_list):
         print path_list
+        self.path = 'dev/test_specimen.txt'
         # Receive one or more fonts.
 
         # Copy every font into the document-fonts folder of a predefined directory
@@ -17,3 +19,8 @@ class CreateInDesignSpecimen:
 if __name__ == '__main__':
     input_paths = getInputpaths()
     specimen = CreateInDesignSpecimen(input_paths)
+
+    # Open Specimen-file
+    if specimen.path:
+        subprocess.call(('open', specimen.path))
+
