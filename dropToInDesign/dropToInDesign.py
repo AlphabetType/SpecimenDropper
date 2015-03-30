@@ -57,13 +57,14 @@ class CreateInDesignSpecimen:
                 'fontpath': fontfile,
                 'familyname': font['name'].getName(1,1,0).string,
                 'style': font['name'].getName(2,1,0).string,
-                'fullname': font['name'].getName(2,1,0).string,
+                'fullname': font['name'].getName(4,1,0).string,
                 'postscriptname': font['name'].getName(6,1,0).string,
                 'version': font['name'].getName(5,1,0).string,
+                'filename': os.path.basename(fontfile),
                 'fonttype': ''
             }
 
-            print dict(font)
+            print this_fontdict['filename']
 
             if font.has_key('CFF '): # There is a space after CFF because table tags have 4 letters
                 this_fontdict['fonttype'] = 'OpenTypeCFF'
