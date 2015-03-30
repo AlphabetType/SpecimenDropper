@@ -187,16 +187,16 @@ class CreateInDesignSpecimen:
                         # This is no intendation mistake: the else is fired, when there is no pattern found in for loop.
                         content_temp += line
 
+                content_out = str(content_temp)
+
                 # Variable replacement
                 for placeholder in self.c.placeholders:
                     if placeholder['variable'] in content_temp:
-                        content_out = str(content_temp)
                         content_out = content_out.replace(placeholder['variable'], placeholder['replaceBy'])
 
-            # Save file with replaced content, if something was found
-            if content_out != '':
-                with open(story_path, 'w') as f:
-                    f.write(content_out)
+            # Save file with replaced content
+            with open(story_path, 'w') as f:
+                f.write(content_out)
 
 
 if __name__ == '__main__':
