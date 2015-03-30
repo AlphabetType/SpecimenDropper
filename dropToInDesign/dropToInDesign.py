@@ -152,18 +152,49 @@ class CreateInDesignSpecimen:
 
         for story_file in os.listdir(storyfolder):
             story_path = os.path.join(storyfolder, story_file)
-            content_out = False
+            content_out = ''
 
             # Open every story file and check if there is something to be replaced
             with open(story_path, 'r') as content_in:
-                content = content_in.read()
+                content = content_in.readlines()
+                content_temp = ''
+                searchpatterns = [
+                    {
+                    'patternStart': '<AppliedFont type="string">',
+                    'patternEnd': '<',
+                    'replaceBy': fontdata['familyname'],
+                    },
+                    {
+                    'patternStart': 'FontStyle="',
+                    'patternEnd': '"',
+                    'replaceBy': fontdata['style'],
+                    }
+                ]
+
+                # Style replacement (more complicated, because the rest of the line should be left untouched.)
+                for line in content:
+                    for searchpattern in searchpatterns:
+                        beginning = line.find(searchpattern['patternStart'])
+                        b = beginning + len(searchpattern['patternStart'])
+                        e = b + line[b:].find(searchpattern['patternEnd'])
+                        if beginning != -1:
+                            matchword = line[b:e]
+                            content_temp += line.replace(matchword, searchpattern['replaceBy'])
+
+                            # Break loop because there is only one searchpattern per line
+                            break
+                    else:
+                        # This is no intendation mistake: the else is fired, when there is no pattern found in for loop.
+                        content_temp += line
+
+                # Variable replacement
                 for placeholder in self.c.placeholders:
-                    if placeholder['variable'] in content:
-                        content_out = str(content)
+                    if placeholder['variable'] in content_temp:
+                        content_out = str(content_temp)
                         content_out = content_out.replace(placeholder['variable'], placeholder['replaceBy'])
 
             # Save file with replaced content, if something was found
-            if content_out:
+            if content_out != '':
                 with open(story_path, 'w') as f:
                     f.write(content_out)
 
