@@ -66,7 +66,6 @@ class CreateInDesignSpecimen:
                this_fontdict['fonttype'] = 'TrueType'
 
             self.fontsdict.append(this_fontdict)
-        print self.fontsdict
 
         # Create a working directory from idml file
         #self.createTmpIDMLDir()
