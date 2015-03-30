@@ -1,12 +1,18 @@
 import subprocess
+import sys
 
 def getInputpaths():
-    return []
+    arguments = []
+    for f in sys.argv[1:]:
+        arguments.append(f)
+
+    return arguments
 
 class CreateInDesignSpecimen:
     def __init__(self, path_list):
         print path_list
-        self.path = 'dev/test_specimen.txt'
+        self.path = False # set to false for dev reasons
+
         # Receive one or more fonts.
 
         # Copy every font into the document-fonts folder of a predefined directory
