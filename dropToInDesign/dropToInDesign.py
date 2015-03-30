@@ -50,7 +50,6 @@ class CreateInDesignSpecimen:
         self.copyFonts()
 
         # Read font data
-        self.fontsdict = []
         for fontfile in self.fontpath_list:
             font = TTFont(fontfile)
             this_fontdict = {
@@ -70,22 +69,20 @@ class CreateInDesignSpecimen:
             else:
                this_fontdict['fonttype'] = 'TrueType'
 
-            self.fontsdict.append(this_fontdict)
+            # Create a working directory from idml file
+            self.createTmpIDMLDir()
 
-        # Create a working directory from idml file
-        #self.createTmpIDMLDir()
+            # Add all data to template InDesign file. (Create a file for every font.)
+            self.replaceIDContent(this_fontdict)
 
-        # Add all data to template InDesign file. (Create a file for every font.)
-        self.replaceIDContent()
+            # Save IDML file
+            shutil.make_archive(this_fontdict['filename'], 'zip', 'temp')
+            temp_zip = this_fontdict['filename'] + '.zip'
+            temp_idml = temp_zip.replace('zip', 'idml')
+            os.rename(temp_zip, os.path.join(self.c.specimen_folder, temp_idml))
 
-        # Save IDML file
-        shutil.make_archive(this_fontdict['filename'], 'zip', 'temp')
-        temp_zip = this_fontdict['filename'] + '.zip'
-        temp_idml = temp_zip.replace('zip', 'idml')
-        os.rename(temp_zip, os.path.join(self.c.specimen_folder, temp_idml))
-
-        # Remove temporary dir
-        #self.removeTmpIDMLDir()
+            # Remove temporary dir
+            self.removeTmpIDMLDir()
 
     def definePlaceholders(self):
         raw_placeholders = self.c.placeholders
@@ -130,29 +127,27 @@ class CreateInDesignSpecimen:
                     print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
 
 
-    def replaceIDContent(self):
+    def replaceIDContent(self, fontdata):
 
         # Overwrite fonts.xml
         fonts_xml_file = os.path.join('temp', 'Resources', 'Fonts.xml')
         fonts_xml_file_content_old = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<idPkg:Fonts xmlns:idPkg="http://ns.adobe.com/AdobeInDesign/idml/1.0/packaging" DOMVersion="8.0">{{fontfamilylist}}\n</idPkg:Fonts>'
+        index = 1
 
-        index = 0
         xml_string = ''
-        for fontdata in self.fontsdict:
-            index += 1
-            xml_string += '\n\t<FontFamily Self="di%s" ' % str(index)
-            xml_string += 'Name="%s">\n\t\t' % fontdata['familyname']
-            xml_string += '<Font Self="di%s" ' % str(index) + fontdata['fullname']
-            xml_string += 'FontFamily="%s" ' % fontdata['familyname']
-            xml_string += 'Name="%s" ' % fontdata['fullname']
-            xml_string += 'PostScriptName="%s" ' % fontdata['postscriptname']
-            xml_string += 'Status="Installed" FontStyleName="%s" ' % fontdata['style']
-            xml_string += 'FontType="%s" ' % fontdata['fonttype']
-            xml_string += 'WritingScript="0" FullName="%s" ' % fontdata['fullname']
-            xml_string += 'FullNameNative="%s" ' % fontdata['fullname']
-            xml_string += 'FontStyleNameNative="%s" ' % fontdata['style']
-            xml_string += 'PlatformName="$ID/" Version="%s" />\n\t' % fontdata['version']
-            xml_string += '</FontFamily>'
+        xml_string += '\n\t<FontFamily Self="di%s" ' % str(index)
+        xml_string += 'Name="%s">\n\t\t' % fontdata['familyname']
+        xml_string += '<Font Self="di%s" ' % str(index) + fontdata['fullname']
+        xml_string += 'FontFamily="%s" ' % fontdata['familyname']
+        xml_string += 'Name="%s" ' % fontdata['fullname']
+        xml_string += 'PostScriptName="%s" ' % fontdata['postscriptname']
+        xml_string += 'Status="Installed" FontStyleName="%s" ' % fontdata['style']
+        xml_string += 'FontType="%s" ' % fontdata['fonttype']
+        xml_string += 'WritingScript="0" FullName="%s" ' % fontdata['fullname']
+        xml_string += 'FullNameNative="%s" ' % fontdata['fullname']
+        xml_string += 'FontStyleNameNative="%s" ' % fontdata['style']
+        xml_string += 'PlatformName="$ID/" Version="%s" />\n\t' % fontdata['version']
+        xml_string += '</FontFamily>'
 
         fonts_xml_file_content_new = fonts_xml_file_content_old.replace('{{fontfamilylist}}', xml_string)
 
