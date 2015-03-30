@@ -1,6 +1,7 @@
 import subprocess
 import sys, os, shutil
 import zipfile
+from fontTools.ttLib import TTFont
 
 class ConfigData:
     def __init__(self):
@@ -46,11 +47,11 @@ class CreateInDesignSpecimen:
         # Read font data
         self.fontsdict = []
         for fontfile in self.fontpath_list:
+            font = TTFont(fontfile)
             this_fontdict = {
                 'fontpath': fontfile,
-                'filename': '',
-                'familyname': '',
-                'style': ''
+                'familyname': font['name'].getName(1,1,0).string,
+                'style': font['name'].getName(2,1,0).string
             }
             self.fontsdict.append(this_fontdict)
 
