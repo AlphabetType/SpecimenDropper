@@ -5,6 +5,8 @@
 With DropToInDesign you can automatically create multiple typeface specimens:
 Drop one or more fonts onto the app and the script builds a specimen-file for every font and opens it for you in InDesign.
 
+The fonts don’t have to be installed (at least if you use InDesign CS5 or later).
+
 ## The specimen template
 
 * You the template file inside the app (Right click on the app, Show package contents -> Resources -> template_specimen.idml) as you wish.
