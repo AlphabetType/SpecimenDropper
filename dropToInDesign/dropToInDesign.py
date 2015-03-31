@@ -118,17 +118,18 @@ class CreateInDesignSpecimen:
     def addPlaceholderData(self, this_fontdict):
         this_dict = []
         for placeholder in self.c.placeholders:
-            if placeholder['variable'] is '{{timestamp}}':
+            print placeholder['variable']
+            if placeholder['variable'] == '{{timestamp}}':
                 # Formatting options: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
-                placeholder['replaceBy'] = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                placeholder['replaceBy'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            if placeholder['variable'] is '{{familyname}}':
+            if placeholder['variable'] == '{{familyname}}':
                 placeholder['replaceBy'] = this_fontdict['familyname']
 
-            if placeholder['variable'] is '{{style}}':
+            if placeholder['variable'] == '{{style}}':
                 placeholder['replaceBy'] = this_fontdict['style']
 
-            if placeholder['variable'] is '{{filename}}':
+            if placeholder['variable'] == '{{filename}}':
                 placeholder['replaceBy'] = this_fontdict['filename']
 
 
