@@ -68,6 +68,9 @@ class CreateInDesignSpecimen:
                 'fonttype': ''
             }
 
+            # Get specific placeholders
+            this_placeholders = self.addPlaceholderData()
+
 
             if font.has_key('CFF '): # There is a space after CFF because table tags have 4 letters
                 this_fontdict['fonttype'] = 'OpenTypeCFF'
@@ -78,7 +81,7 @@ class CreateInDesignSpecimen:
             self.createTmpIDMLDir()
 
             # Add all data to template InDesign file. (Create a file for every font.)
-            self.replaceIDContent(this_fontdict)
+            self.replaceIDContent(this_fontdict, this_placeholders)
 
             # Save IDML file
             shutil.make_archive(this_fontdict['filename'], 'zip', 'temp')
@@ -93,6 +96,12 @@ class CreateInDesignSpecimen:
             # Remove temporary dir
             self.removeTmpIDMLDir()
 
+    def addPlaceholderData(self):
+        this_dict = []
+        for placeholder in self.c.placeholders:
+            this_dict.append(placeholder)
+
+        return this_dict
 
     def definePlaceholders(self):
         raw_placeholders = self.c.placeholders
@@ -137,7 +146,7 @@ class CreateInDesignSpecimen:
                     print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
 
 
-    def replaceIDContent(self, fontdata):
+    def replaceIDContent(self, fontdata, placeholder_data):
 
         # Overwrite fonts.xml
         fonts_xml_file = os.path.join('temp', 'Resources', 'Fonts.xml')
@@ -207,7 +216,7 @@ class CreateInDesignSpecimen:
                 content_out = str(content_temp)
 
                 # Variable replacement
-                for placeholder in self.c.placeholders:
+                for placeholder in placeholder_data:
                     if placeholder['variable'] in content_temp:
                         content_out = content_out.replace(placeholder['variable'], placeholder['replaceBy'])
 
