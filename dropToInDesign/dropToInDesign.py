@@ -2,6 +2,7 @@ import subprocess
 import sys, os, shutil
 import zipfile
 from fontTools.ttLib import TTFont
+import datetime
 
 class ConfigData:
     def __init__(self):
@@ -29,7 +30,7 @@ class ConfigData:
                 'replaceBy': ''
             },
             {
-                'variable': '{{fontname}}',
+                'variable': '{{familyname}}',
                 'replaceBy': ''
             },
             {
@@ -87,7 +88,7 @@ class CreateInDesignSpecimen:
             }
 
             # Get specific placeholders
-            this_placeholders = self.addPlaceholderData()
+            this_placeholders = self.addPlaceholderData(this_fontdict)
 
 
             if font.has_key('CFF '): # There is a space after CFF because table tags have 4 letters
@@ -114,20 +115,22 @@ class CreateInDesignSpecimen:
             # Remove temporary dir
             self.removeTmpIDMLDir()
 
-    def addPlaceholderData(self):
+    def addPlaceholderData(self, this_fontdict):
         this_dict = []
         for placeholder in self.c.placeholders:
             if placeholder['variable'] is '{{timestamp}}':
-                placeholder['replaceBy'] = ''
+                # Formatting options: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
+                placeholder['replaceBy'] = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-            if placeholder['variable'] is '{{fontname}}':
-                placeholder['replaceBy'] = ''
-
-            if placeholder['variable'] is '{{filename}}':
-                placeholder['replaceBy'] = ''
+            if placeholder['variable'] is '{{familyname}}':
+                placeholder['replaceBy'] = this_fontdict['familyname']
 
             if placeholder['variable'] is '{{style}}':
-                placeholder['replaceBy'] = ''
+                placeholder['replaceBy'] = this_fontdict['style']
+
+            if placeholder['variable'] is '{{filename}}':
+                placeholder['replaceBy'] = this_fontdict['filename']
+
 
             this_dict.append(placeholder)
 
