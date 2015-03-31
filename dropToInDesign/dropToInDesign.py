@@ -15,7 +15,7 @@ class ConfigData:
             os.mkdir(self.specimen_folder)
 
         # IDML template
-        self.idml_template = os.path.join('dev', 'test_specimen.idml')
+        self.idml_template = 'template_specimen.idml'
 
         # Placholders variables to replace
         # You can add your own variables here.
@@ -23,7 +23,7 @@ class ConfigData:
         self.placeholders = [
             {
                 'variable': '{{headline}}',
-                'replaceBy': '{{An alphabet specimen.}}'
+                'replaceBy': 'AN ALPHABET SPECIMEN'
             },
             {
                 'variable': '{{timestamp}}',
