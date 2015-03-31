@@ -7,4 +7,4 @@ Drop fonts onto scripts to automatically create an InDesign specimen-file for ev
 * Example: '''python dropToInDesign.py user/test/desktop/FiraSans-Bold.otf user/test/desktop/FiraSans-Bold.otf'''
 
 ## Dependencies
-* fontTools
+* fontTools (Get it here: https://github.com/behdad/fonttools/)
