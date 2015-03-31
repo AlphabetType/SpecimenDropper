@@ -5,6 +5,9 @@ from fontTools.ttLib import TTFont
 
 class ConfigData:
     def __init__(self):
+        # Automatically open specimen file with standard application at the end?
+        self.openFile = True
+
         # Create Specimen folder if necessary
         self.specimen_folder = 'specimen'
         if not os.path.exists(self.specimen_folder):
@@ -37,11 +40,13 @@ def getInputpaths():
 
 class CreateInDesignSpecimen:
     def __init__(self, path_list):
-        self.path = False # set to false for dev reasons
-        print sys.argv[0]
 
         # Get config data
         self.c = ConfigData()
+        self.open = self.c.openFile
+
+        # Save speciment paths for further use at the end
+        self.paths = []
 
         # Receive one or more fonts.
         self.fontpath_list = self.acceptOnlyAllowedFiletypesInList(path_list)
@@ -79,10 +84,15 @@ class CreateInDesignSpecimen:
             shutil.make_archive(this_fontdict['filename'], 'zip', 'temp')
             temp_zip = this_fontdict['filename'] + '.zip'
             temp_idml = temp_zip.replace('zip', 'idml')
-            os.rename(temp_zip, os.path.join(self.c.specimen_folder, temp_idml))
+            specimen_path = os.path.join(self.c.specimen_folder, temp_idml)
+            os.rename(temp_zip, specimen_path)
+
+            # Add IDML file to specimen paths
+            self.paths.append(specimen_path)
 
             # Remove temporary dir
             self.removeTmpIDMLDir()
+
 
     def definePlaceholders(self):
         raw_placeholders = self.c.placeholders
@@ -210,7 +220,8 @@ if __name__ == '__main__':
     input_paths = getInputpaths()
     specimen = CreateInDesignSpecimen(input_paths)
 
-    # Open Specimen-file
-    if specimen.path:
-        subprocess.call(('open', specimen.path))
+    # Open Specimen-files
+    if specimen.open:
+        for path in specimen.paths:
+            subprocess.call(('open', path))
 
