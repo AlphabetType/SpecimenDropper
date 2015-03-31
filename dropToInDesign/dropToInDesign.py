@@ -118,7 +118,6 @@ class CreateInDesignSpecimen:
     def addPlaceholderData(self, this_fontdict):
         this_dict = []
         for placeholder in self.c.placeholders:
-            print placeholder['variable']
             if placeholder['variable'] == '{{timestamp}}':
                 # Formatting options: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
                 placeholder['replaceBy'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
