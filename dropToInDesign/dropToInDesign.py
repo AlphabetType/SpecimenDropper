@@ -17,12 +17,30 @@ class ConfigData:
         self.idml_template = os.path.join('dev', 'test_specimen.idml')
 
         # Placholders variables to replace
+        # You can add your own variables here.
+        # See the "addPlaceholderData" function for adding dynamic data to the dictionary.
         self.placeholders = [
             {
-                'id': 'fontname',
+                'variable': '{{headline}}',
+                'replaceBy': '{{An alphabet specimen.}}'
+            },
+            {
+                'variable': '{{timestamp}}',
+                'replaceBy': ''
+            },
+            {
                 'variable': '{{fontname}}',
-                'replaceBy': 'test'
+                'replaceBy': ''
+            },
+            {
+                'variable': '{{filename}}',
+                'replaceBy': ''
+            },
+            {
+                'variable': '{{style}}',
+                'replaceBy': ''
             }
+
         ]
 
         # Allowed filetypes must start with a dot
@@ -99,6 +117,18 @@ class CreateInDesignSpecimen:
     def addPlaceholderData(self):
         this_dict = []
         for placeholder in self.c.placeholders:
+            if placeholder['variable'] is '{{timestamp}}':
+                placeholder['replaceBy'] = ''
+
+            if placeholder['variable'] is '{{fontname}}':
+                placeholder['replaceBy'] = ''
+
+            if placeholder['variable'] is '{{filename}}':
+                placeholder['replaceBy'] = ''
+
+            if placeholder['variable'] is '{{style}}':
+                placeholder['replaceBy'] = ''
+
             this_dict.append(placeholder)
 
         return this_dict
