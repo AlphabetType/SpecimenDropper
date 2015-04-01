@@ -51,11 +51,7 @@ class ConfigData(object):
         self.id_fonts_folderpath = os.path.join(self.specimen_folder, 'Document fonts')
 
 def getInputpaths():
-    arguments = []
-    for f in sys.argv[1:]:
-        arguments.append(f)
-
-    return arguments
+    return sys.argv[1:]
 
 class CreateInDesignSpecimen(object):
     def __init__(self, path_list):
