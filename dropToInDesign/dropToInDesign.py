@@ -149,8 +149,9 @@ class CreateInDesignSpecimen(object):
         try:
             shutil.rmtree(dir_path)
             return True
-        except:
+        except Exception as e:
             print 'Error while removing', dir_path
+            print "error({0}): {1}".format(e.errno, e.strerror)
             return False
 
 
