@@ -98,7 +98,7 @@ class CreateInDesignSpecimen(object):
             # Add all data to template InDesign file. (Create a file for every font.)
             self.replaceIDContent(this_fontdict, this_placeholders)
 
-            # Save IDML file
+            # Save IDML file (which is virtually a zip file)
             shutil.make_archive(this_fontdict['filename'], 'zip', 'temp')
             temp_zip = this_fontdict['filename'] + '.zip'
             temp_idml = temp_zip.replace('zip', 'idml')
