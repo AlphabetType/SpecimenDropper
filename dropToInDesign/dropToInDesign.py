@@ -118,22 +118,19 @@ class CreateInDesignSpecimen(object):
                 # Formatting options: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
                 placeholder['replaceBy'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            if placeholder['variable'] == '{{familyname}}':
+            elif placeholder['variable'] == '{{familyname}}':
                 placeholder['replaceBy'] = this_fontdict['familyname']
 
-            if placeholder['variable'] == '{{style}}':
+            elif placeholder['variable'] == '{{style}}':
                 placeholder['replaceBy'] = this_fontdict['style']
 
-            if placeholder['variable'] == '{{filename}}':
+            elif placeholder['variable'] == '{{filename}}':
                 placeholder['replaceBy'] = this_fontdict['filename']
 
 
             this_dict.append(placeholder)
 
         return this_dict
-
-    def definePlaceholders(self):
-        raw_placeholders = self.c.placeholders
 
 
     def createTmpIDMLDir(self):
