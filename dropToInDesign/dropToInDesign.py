@@ -274,7 +274,13 @@ if __name__ == '__main__':
         # Open Specimen-files
         if specimen.open:
             for path in specimen.paths:
-                subprocess.call(('open', path))
+                if os.path.isfile(path):
+                    if os.name == 'nt':
+                        os.startfile(path)
+                    else:
+                        subprocess.call(('open', path))
+                else:
+                    print 'file not found %s' % path
     else:
         print 'No fonts added!'
 
