@@ -109,7 +109,7 @@ class CreateInDesignSpecimen(object):
             self.paths.append(specimen_path)
 
             # Remove temporary dir
-            self.removeTmpIDMLDir()
+            self.removeDir('temp')
 
     def addPlaceholderData(self, this_fontdict):
         this_dict = []
@@ -134,22 +134,25 @@ class CreateInDesignSpecimen(object):
 
 
     def createTmpIDMLDir(self):
-        try:
+        if os.path.isdir('temp'):
             # Remove folder to have a clear start
-            shutil.rmtree('temp')
-        except:
-            # Folder does not exist yet
-            pass
-        finally:
-            # Create temp folder (again)
-            os.mkdir('temp')
+            self.removeDir('temp')
+
+        # Create temp folder (again)
+        os.mkdir('temp')
 
         # An IDML file is practically a zip file. So we can unzip it to our temp directory.
         with zipfile.ZipFile(self.c.idml_template) as zipped_idml:
             zipped_idml.extractall('temp')
 
-    def removeTmpIDMLDir(self):
-        shutil.rmtree('temp')
+    def removeDir(self, dir_path):
+        try:
+            shutil.rmtree(dir_path)
+            return True
+        except:
+            print 'Error while removing', dir_path
+            return False
+
 
     def acceptOnlyAllowedFiletypesInList(self, pathlist_in):
         pathlist_out = []
@@ -162,22 +165,19 @@ class CreateInDesignSpecimen(object):
         return pathlist_out
 
     def copyFonts(self):
-        try:
+        if os.path.isdir(self.c.id_fonts_folderpath):
             # Remove folder to have a clear start
-            shutil.rmtree(self.c.id_fonts_folderpath)
-        except:
-            # Folder does not exist yet
-            pass
-        finally:
-            # Create folder (again)
-            os.mkdir(self.c.id_fonts_folderpath)
+            self.removeDir(self.c.id_fonts_folderpath)
 
-            # Copy fonts into empty folder
-            for fontpath in self.fontpath_list:
-                try:
-                    shutil.copy(fontpath, self.c.id_fonts_folderpath)
-                except:
-                    print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
+        # Create folder (again)
+        os.mkdir(self.c.id_fonts_folderpath)
+
+        # Copy fonts into empty folder
+        for fontpath in self.fontpath_list:
+            try:
+                shutil.copy(fontpath, self.c.id_fonts_folderpath)
+            except:
+                print 'Error while copying', fontpath, 'to', self.c.id_fonts_folderpath
 
 
     def replaceIDContent(self, fontdata, placeholder_data):
