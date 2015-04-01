@@ -141,7 +141,15 @@ class CreateInDesignSpecimen:
 
 
     def createTmpIDMLDir(self):
-        os.mkdir('temp')
+        try:
+            # Remove folder to have a clear start
+            shutil.rmtree('temp')
+        except:
+            # Folder does not exist yet
+            pass
+        finally:
+            # Create temp folder (again)
+            os.mkdir('temp')
 
         # An IDML file is practically a zip file. So we can unzip it to our temp directory.
         with zipfile.ZipFile(self.c.idml_template) as zipped_idml:
