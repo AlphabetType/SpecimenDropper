@@ -9,10 +9,12 @@ class ConfigData(object):
         # Automatically open specimen file with standard application at the end?
         self.openFile = True
 
-        # Create Specimen folder if necessary
+        # Remove old Specimen folder if necessary
         self.specimen_folder = 'specimen'
-        if not os.path.exists(self.specimen_folder):
-            os.mkdir(self.specimen_folder)
+        if os.path.isdir(self.specimen_folder):
+            removeDir(self.specimen_folder)
+
+        os.mkdir(self.specimen_folder)
 
         # IDML template
         self.idml_template = 'template_specimen.idml'
@@ -52,6 +54,22 @@ class ConfigData(object):
 
 def getInputpaths():
     return sys.argv[1:]
+
+def removeDir(dir_path):
+    try:
+        shutil.rmtree(dir_path)
+        return True
+    except Exception as e:
+        print 'Oops! SpecimenDropper is unable to handle folder: "%s"' % dir_path
+        if e.errno == 13:
+            print 'It seems that you have a file inside this directory open: "%s"' % os.path.dirname(sys.argv[0])
+            print 'This could be an InDesign document or a document font. Close it and try again.'
+        elif e.message:
+            print e.message
+        else:
+            print e.errno, e
+        print 10*'-'
+        sys.exit('SpecimenDropper failed and quit ...')
 
 class CreateInDesignSpecimen(object):
     def __init__(self, path_list):
@@ -109,7 +127,7 @@ class CreateInDesignSpecimen(object):
             self.paths.append(specimen_path)
 
             # Remove temporary dir
-            self.removeDir('temp')
+            removeDir('temp')
 
     def addPlaceholderData(self, this_fontdict):
         this_dict = []
@@ -136,7 +154,7 @@ class CreateInDesignSpecimen(object):
     def createTmpIDMLDir(self):
         if os.path.isdir('temp'):
             # Remove folder to have a clear start
-            self.removeDir('temp')
+            removeDir('temp')
 
         # Create temp folder (again)
         os.mkdir('temp')
@@ -144,15 +162,6 @@ class CreateInDesignSpecimen(object):
         # An IDML file is practically a zip file. So we can unzip it to our temp directory.
         with zipfile.ZipFile(self.c.idml_template) as zipped_idml:
             zipped_idml.extractall('temp')
-
-    def removeDir(self, dir_path):
-        try:
-            shutil.rmtree(dir_path)
-            return True
-        except Exception as e:
-            print 'Error while removing', dir_path
-            print "error({0}): {1}".format(e.errno, e.strerror)
-            return False
 
 
     def acceptOnlyAllowedFiletypesInList(self, pathlist_in):
@@ -168,7 +177,7 @@ class CreateInDesignSpecimen(object):
     def copyFonts(self):
         if os.path.isdir(self.c.id_fonts_folderpath):
             # Remove folder to have a clear start
-            self.removeDir(self.c.id_fonts_folderpath)
+            removeDir(self.c.id_fonts_folderpath)
 
         # Create folder (again)
         os.mkdir(self.c.id_fonts_folderpath)
