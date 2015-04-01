@@ -23,7 +23,7 @@ class ConfigData:
         self.placeholders = [
             {
                 'variable': '{{headline}}',
-                'replaceBy': 'AN ALPHABET SPECIMEN'
+                'replaceBy': 'alphabet-type.com'
             },
             {
                 'variable': '{{timestamp}}',
