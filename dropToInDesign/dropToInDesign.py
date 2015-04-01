@@ -70,16 +70,16 @@ class CreateInDesignSpecimen(object):
         self.copyFonts()
 
         # Read font data
-        for fontfile in self.fontpath_list:
-            font = TTFont(fontfile)
+        for font_path in self.fontpath_list:
+            font = TTFont(font_path)
             this_fontdict = {
-                'fontpath': fontfile,
+                'fontpath': font_path,
                 'familyname': font['name'].getName(1,1,0).string,
                 'style': font['name'].getName(2,1,0).string,
                 'fullname': font['name'].getName(4,1,0).string,
                 'postscriptname': font['name'].getName(6,1,0).string,
                 'version': font['name'].getName(5,1,0).string,
-                'filename': os.path.basename(fontfile),
+                'filename': os.path.basename(font_path),
                 'fonttype': ''
             }
 
