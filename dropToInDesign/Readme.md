@@ -1,6 +1,6 @@
-# Drop to InDesign
+# SpecimenDropper: Drop to InDesign
 
-## What is it about?
+### What is it about?
 
 With dropToInDesign you can automatically create multiple typeface specimens:
 Drop one or more fonts onto the app and the script builds a specimen-file for every font and opens it for you in InDesign.
@@ -8,18 +8,22 @@ Drop one or more fonts onto the app and the script builds a specimen-file for ev
 * The fonts don’t have to be installed (at least if you use InDesign CS5 or later).
 * You can edit the InDesign Template for your needs to create your own branded specimens.
 
-## The specimen template
+### The specimen template
 
 * You the template file inside the app (Right click on the app, Show package contents -> Resources -> template_specimen.idml) as you wish.
 * You can add custom placeholder-variables in your template. (See dev notes below)
 * You can duplicate the app, rename it and edit every template specimen for certain needs.
+* Please keep in mind: Currently you have to assign a non-standard font with a style other than regular to a textbox (story) in InDesign for the box to be recognized (and replaced with your dropped font).
 
-## Any ideas?
+### Any ideas?
 This is currently the first version. If you have feature request, just drop us a line!
 
 ### Dependencies
 * Adobe InDesign CS5+
 * MacOSX (If you use want to use the standalone version of SpecimenDropper)
+
+### Known bugs
+
 
 
 ## Dev notes
