@@ -25,20 +25,20 @@ This is currently the first version. If you have feature request, just drop us a
 ## Dev notes
 If you want to have more control (like adding placeholder-variables), you should work with uncompiled version. You can run the script via commandline and add one or more fonts as attributes:
 
-'''python dropToInDesign.py user/test/desktop/FiraSans-Bold.otf user/test/desktop/FiraSans-Bold.otf'''
+    python dropToInDesign.py user/test/desktop/FiraSans-Bold.otf user/test/desktop/FiraSans-Bold.otf
 
 ### Placeholder Variables
 With variables you can add dynamic content to your template specimens.
 
 There are currently those variables as presets available in your template:
 
-* {{timestamp}} -> Current date and time 
-* {{familyname}} -> Name of the font family
-* {{style}} -> Name of the font style
-* {{filename}} -> Filename of the font
-* {{headline}} -> "alphabet-type.com"
+* `{{timestamp}}` -> Current date and time 
+* `{{familyname}}` -> Name of the font family
+* `{{style}}` -> Name of the font style
+* `{{filename}}` -> Filename of the font
+* `{{headline}}` -> "alphabet-type.com"
 
-You can add custom variables in '''dropToInDesign.py''' inside the placeholders dictionary. See the code-comments for further information.
+You can add custom variables in `dropToInDesign.py` inside the placeholders dictionary. See the code-comments for further information.
 
 ## Development Dependencies
 * fontTools (Get it here: https://github.com/behdad/fonttools/)
