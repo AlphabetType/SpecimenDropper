@@ -268,10 +268,13 @@ class CreateInDesignSpecimen:
 
 if __name__ == '__main__':
     input_paths = getInputpaths()
-    specimen = CreateInDesignSpecimen(input_paths)
+    if len(input_paths) > 0:
+        specimen = CreateInDesignSpecimen(input_paths)
 
-    # Open Specimen-files
-    if specimen.open:
-        for path in specimen.paths:
-            subprocess.call(('open', path))
+        # Open Specimen-files
+        if specimen.open:
+            for path in specimen.paths:
+                subprocess.call(('open', path))
+    else:
+        print 'No fonts added!'
 
