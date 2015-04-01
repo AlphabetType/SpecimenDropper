@@ -4,7 +4,7 @@ import zipfile
 from fontTools.ttLib import TTFont
 import datetime
 
-class ConfigData:
+class ConfigData(object):
     def __init__(self):
         # Automatically open specimen file with standard application at the end?
         self.openFile = True
@@ -57,7 +57,7 @@ def getInputpaths():
 
     return arguments
 
-class CreateInDesignSpecimen:
+class CreateInDesignSpecimen(object):
     def __init__(self, path_list):
 
         # Get config data
