@@ -32,8 +32,22 @@ class ProofRunner(object):
         except:
             print 'Error: Unable to create proof:\t %s' % proof_path
 
+        filelist = self.runFolder(filetype)
+        self.foundFiles.append(filelist)
+
+    def runFolder(self, filetype):
+        fontpath_list = []
+        for r, d, f in os.walk(self.rootPath):
+            for filename in f:
+                if filename.endswith(filetype):
+                    this_path = os.path.join(r, filename)
+                    fontpath_list.append(this_path)
+
+        return fontpath_list
+
     def getAllFilePaths(self):
         return self.foundFiles
+
 
 
 
