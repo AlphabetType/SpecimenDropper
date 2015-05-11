@@ -4,7 +4,7 @@ import sys
 def getInputpaths(debug=False):
     if debug:
         # If you use windows, you should use a windows compatible path
-        return os.path.join(os.path.expanduser('~'), 'Desktop')
+        return [os.path.join(os.path.expanduser('~'), 'Desktop')]
 
     elif len(sys.argv[1:]) > 0:
         return sys.argv[1:]
