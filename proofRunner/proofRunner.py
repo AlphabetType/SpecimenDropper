@@ -35,6 +35,7 @@ class ProofRunner(object):
 
                 # Content in
                 content_list.append(template.html_in.replace('{{title}}', filetype + ' Proof'))
+                content_list.append(template.css_main)
 
                 # Content main
                 for path in filelist:

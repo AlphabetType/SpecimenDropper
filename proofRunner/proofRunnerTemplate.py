@@ -42,3 +42,56 @@ fontbox = '''
         </div>
 ''' % example_string
 
+css_main = '''
+<style>
+    body {
+        font-family: monospace;
+        padding: 1em;
+        width: 90%;
+    }
+
+    .fontbox {
+        border-left: 1em solid LimeGreen;
+        padding: 0 0 1em 1em;
+        cursor: pointer;
+    }
+
+    .fontbox:hover, .error:hover {
+        background-color: Moccasin;
+        border-color: orange;
+    }
+
+    .fontbox:hover .filepath, .error:hover .filepath {
+        color: orange;
+    }
+
+    .fontbox:active {
+        transform: scale(0.99);
+    }
+
+    .error {
+        background-color: LightPink;
+        border-color: red;
+    }
+
+    .error .filepath {
+            color: red;
+        }
+
+    .filepath {
+        color: LimeGreen;
+    }
+
+    .example_string {
+        font-size: 3em;
+    }
+
+    textarea.error_box {
+      width: 100%;
+      height: 30em;
+      font-family: monospace;
+      margin: 1em 0;
+    }
+</style>
+'''
+
