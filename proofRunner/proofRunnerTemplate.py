@@ -42,6 +42,43 @@ fontbox = '''
         </div>
 ''' % example_string
 
+js_main = '''
+<script>
+    var errorFontpaths = {}
+    $(document).ready(function() {
+
+        $(".fontbox").click(function() {
+            if(!$(this).hasClass("error")) {
+                // Add as error
+                errorFontpaths[$(this).attr("data-thisFont")] = '';
+                $(this).addClass("error")
+            } else {
+                // Remove from Errors
+                $(this).removeClass("error")
+                delete errorFontpaths[$(this).attr("data-thisFont")];
+            }
+
+            printErrors()
+        });
+
+        printErrors = function() {
+
+            var content = ''
+            var errorCount = 0
+            jQuery.each(errorFontpaths, function(path) {
+               console.log(path);
+               content += path + "\\n";
+               errorCount++
+            });
+
+            $(".error_box").val(content)
+            $('.js_errorCount').text(errorCount)
+        }
+
+    });
+</script>
+'''
+
 css_main = '''
 <style>
     body {

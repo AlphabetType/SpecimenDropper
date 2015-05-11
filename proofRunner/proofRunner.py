@@ -35,11 +35,13 @@ class ProofRunner(object):
 
                 # Content in
                 content_list.append(template.html_in.replace('{{title}}', filetype + ' Proof'))
+                content_list.append(template.js_main)
                 content_list.append(template.css_main)
 
                 # Content main
                 for path in filelist:
                     content_list.append(self.getHTMLSnippet(path))
+                    print '... adding:\t', path
 
                 # Content out
                 content_list.append(template.html_out.replace('{{count}}', str(len(filelist))))
