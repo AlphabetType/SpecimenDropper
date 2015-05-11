@@ -79,7 +79,7 @@ class ProofRunner(object):
 
 
 if __name__ == '__main__':
-    input_paths = getInputpaths(debug=True)
+    input_paths = getInputpaths(debug=False)
     if input_paths:
         for path in input_paths:
             pr = ProofRunner(path)
