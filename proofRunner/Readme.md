@@ -1,7 +1,7 @@
 # SpecimenDropper: proofRunner
 
 ### What is it about?
-proofRunner creates an HTML page that displays all fonts of a specific format inside a directory (and it’s subdirectories). This way you can easily spot erroneous fontfiles and collect them in a list to investigate them further.
+proofRunner creates an HTML page that displays all fonts inside a directory (and it’s subdirectories). This way you can easily spot erroneous fontfiles and collect them in a list to investigate them further.
 
 ### How does it work?
 * Add one or more folders as arguments to the proofRunner script via commandline.
