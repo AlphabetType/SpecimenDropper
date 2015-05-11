@@ -22,7 +22,13 @@ class ProofRunner(object):
             self.createProof(extension)
 
     def createProof(self, filetype):
-        print 'Creating proof for %s files' % filetype
+        proof_path = os.path.join(self.rootPath, 'proof_' + filetype + '.html')
+        try:
+            with open(proof_path, 'w+') as proof_file:
+                print 'Creating proof for %s files:\t %s' % (filetype, proof_path)
+        except:
+            print 'Error: Unable to create proof:\t %s' % proof_path
+
 
 
 if __name__ == '__main__':
