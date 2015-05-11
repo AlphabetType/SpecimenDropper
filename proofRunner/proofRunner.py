@@ -32,9 +32,16 @@ class ProofRunner(object):
             with open(proof_path, 'w+') as proof_file:
                 print 'Writing proof for %s files:\t %s' % (filetype, proof_path)
                 content_list = []
+
+                # Content in
                 content_list.append(template.html_in.replace('{{title}}', filetype + ' Proof'))
+
+                # Content main
                 for path in filelist:
                     content_list.append(self.getHTMLSnippet(path))
+
+                # Content out
+                content_list.append(template.html_out.replace('{{count}}', str(len(filelist))))
 
                 proof_file.write('\n'.join(content_list))
         except:
