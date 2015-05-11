@@ -20,9 +20,11 @@ class ProofRunner(object):
         self.foundFiles = []
 
         for extension in template.ff_statements:
-            self.createProof(extension)
+            filelist = self.runFolder(extension)
+            self.foundFiles.append(filelist)
+            self.createProof(extension, filelist)
 
-    def createProof(self, filetype):
+    def createProof(self, filetype, filelist):
         # The proof files will be created in the root of the given path.
         # If you want to create them elsewhere, change this variable accordingly.
         proof_path = os.path.join(self.rootPath, 'proof_' + filetype + '.html')
@@ -32,8 +34,6 @@ class ProofRunner(object):
         except:
             print 'Error: Unable to create proof:\t %s' % proof_path
 
-        filelist = self.runFolder(filetype)
-        self.foundFiles.append(filelist)
 
     def runFolder(self, filetype):
         fontpath_list = []
