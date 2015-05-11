@@ -13,7 +13,13 @@ def getInputpaths(debug=False):
         return False
 
 
+class CreateProofs(object):
+    def __init__(self, rootPath):
+        print rootPath
+
+
 if __name__ == '__main__':
     input_paths = getInputpaths(debug=True)
     if input_paths:
-        print os.listdir(input_paths)
+        for path in input_paths:
+            CreateProofs(path)
