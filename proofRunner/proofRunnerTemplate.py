@@ -13,7 +13,9 @@ ff_statements = {
 # This is the text that will be displayed for every found font
 example_string = 'Alphabetfoxjumpkicks'
 
+
 # Replace the URL to jQuery with a link to a local jQuqery file if you want to use the click-functionality (see <script> below) offline
+# Placeholders with double curly brackets will be replaced in the main script.
 html_in = '''
 <!DOCTYPE html>
     <html>
