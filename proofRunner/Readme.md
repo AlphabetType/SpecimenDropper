@@ -1,6 +1,6 @@
 # SpecimenDropper: proofRunner
 
-![proofRunner Example](/documentation_files/proofRunner_example.png)
+![proofRunner Example](https://github.com/AlphabetType/SpecimenDropper/blob/master/proofRunner/documentation_files/proofRunner_example.png)
 
 ### What is it about?
 proofRunner creates an HTML page that displays all fonts inside a directory (and it’s subdirectories). This way you can easily spot erroneous fontfiles and collect them in a list to investigate them further.
